@@ -38,6 +38,10 @@ var CleverDate = function(opts){
         return (val > 1) ? 's' : '';
     }
 
+    var is_are = function(val){
+        return (val > 1) ? 'are' : 'is';
+    }
+
     // METHOD GIVES DIFFERENCE BETWEEN 2 DATES
     var dateDiff = function(date1, date2){
         var diff = {}                           
@@ -97,24 +101,30 @@ var CleverDate = function(opts){
             diff = dateDiff(date, date_current);
             
             if(diff.day == 0 && diff.hour == 0 && diff.min == 0  && diff.sec <= 30){
-                txt = "À l'instant";
+                if(lang == 'fr') txt = "À l'instant";
+                else if(lang == 'en') txt = "Just now";
             }
-            else if(diff.day == 0 && diff.hour == 0 && diff.min == 0){
-                txt = 'Il y a '+diff.sec+' secondes';				
+            else if(diff.day == 0 && diff.hour == 0 && diff.min == 0){                  
+                if(lang == 'fr') txt = 'Il y a '+diff.sec+' secondes';
+                else if(lang == 'en') txt = ''+diff.sec+' seconds ago';          
             }
-            else if(diff.day == 0 && diff.hour == 0 ){
-                txt = 'Il y a '+diff.min+' minute'+plural_s(diff.min);
+            else if(diff.day == 0 && diff.hour == 0 ){                
+                if(lang == 'fr') txt = 'Il y a '+diff.min+' minute'+plural_s(diff.min);
+                else if(lang == 'en') txt = ''+diff.min+' minute'+plural_s(diff.min)+' ago';
             }
             else if(diff.day == 0 && diff.hour <= 3){                
-                txt = 'Il y a '+diff.hour+' heure'+plural_s(diff.hour)+'' ;
+                if(lang == 'fr') txt = 'Il y a '+diff.hour+' heure'+plural_s(diff.hour)+'' ;
+                else if(lang == 'en') txt = ''+diff.hour+' hour'+plural_s(diff.hour)+'' ;
             }
             else if(isToday){
-                txt= "Aujourd'hui à "+date.getHours()+":"+date.getMinutes();
+                if(lang == 'fr') txt= "Aujourd'hui à "+date.getHours()+":"+date.getMinutes();
+                else if(lang == 'en') txt= "Today at "+date.getHours()+":"+date.getMinutes();                
             }
             else if(isYesterday){
-                txt= "Hier à "+date.getHours()+":"+date.getMinutes();
+                if(lang == 'fr') txt= "Hier à "+date.getHours()+":"+date.getMinutes();
+                else if(lang == 'en') txt= "Yesterday at "+date.getHours()+":"+date.getMinutes();                
             }  
-            else if(isBeforeYesterday){
+            else if(isBeforeYesterday && lang == 'fr'){
                 txt= "Avant-hier à "+date.getHours()+":"+date.getMinutes();
             }
                        
@@ -145,7 +155,9 @@ var CleverDate = function(opts){
     instance_cleverdate = this;
 
     var selector = (opts.selector) ? opts.selector : '[data-cleverdate]';
+    var lang = (opts.lang) ? opts.lang : 'fr';
     var refreshInterval = (opts.refreshInterval) ? opts.refreshInterval : 10;
+
 
    
     // Call a firt start
