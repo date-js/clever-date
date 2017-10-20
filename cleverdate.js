@@ -2,16 +2,9 @@
 // To preven multiple executions
 var instance_cleverdate = null;
 
+var CleverDate = function(opts){    
 
-
-var CleverDate = function(opts){
-
-    
-
-    var instance_current = this;
-
-
-   
+    var instance_current = this;  
 
 
     // LAUNCH THE FIRST START
@@ -47,16 +40,16 @@ var CleverDate = function(opts){
 
     // METHOD GIVES DIFFERENCE BETWEEN 2 DATES
     var dateDiff = function(date1, date2){
-        var diff = {}                           // Initialisation du retour
+        var diff = {}                           
         var tmp = date2 - date1;
     
-        tmp = Math.floor(tmp/1000);             // Nombre de secondes entre les 2 dates
+        tmp = Math.floor(tmp/1000);             
         diff.sec = tmp % 60;                    // Extraction du nombre de secondes
     
-        tmp = Math.floor((tmp-diff.sec)/60);    // Nombre de minutes (partie entière)
+        tmp = Math.floor((tmp-diff.sec)/60);    
         diff.min = tmp % 60;                    // Extraction du nombre de minutes
     
-        tmp = Math.floor((tmp-diff.min)/60);    // Nombre d'heures (entières)
+        tmp = Math.floor((tmp-diff.min)/60);    
         diff.hour = tmp % 24;                   // Extraction du nombre d'heures
         
         tmp = Math.floor((tmp-diff.hour)/24);   // Nombre de jours restants
@@ -79,11 +72,7 @@ var CleverDate = function(opts){
         var date_before_yesterday = new Date(); date_before_yesterday.setDate(date_current.getDate()-2); 
         
         var domSelector = document.querySelectorAll(selector);
-        Array.prototype.forEach.call(domSelector, function(element, index) {
-        //$(selector).each(function(){
-
-       
-            
+        Array.prototype.forEach.call(domSelector, function(element, index){            
 
             // Get date with utc format
             var date = new Date(  element.getAttribute('data-cleverdate')  );
@@ -102,14 +91,13 @@ var CleverDate = function(opts){
 
             // Saving inital date written si we have to do a come back
             if(! element.getAttribute('date-cleverdate-initial')){
-                element.setAttribute('date-cleverdate-initial', element.innerHTML);
-                //element.setAttribute('('date-cleverdate-initial',$(this).html());
+                element.setAttribute('date-cleverdate-initial', element.innerHTML);                
             }
             
             diff = dateDiff(date, date_current);
             
             if(diff.day == 0 && diff.hour == 0 && diff.min == 0  && diff.sec <= 30){
-                txt = "À l'instant";
+                txt = "Ã€ l'instant";
             }
             else if(diff.day == 0 && diff.hour == 0 && diff.min == 0){
                 txt = 'Il y a '+diff.sec+' secondes';				
@@ -121,26 +109,24 @@ var CleverDate = function(opts){
                 txt = 'Il y a '+diff.hour+' heure'+plural_s(diff.hour)+'' ;
             }
             else if(isToday){
-                txt= "Aujourd'hui à "+date.getHours()+":"+date.getMinutes();
+                txt= "Aujourd'hui Ã  "+date.getHours()+":"+date.getMinutes();
             }
             else if(isYesterday){
-                txt= "Hier à "+date.getHours()+":"+date.getMinutes();
+                txt= "Hier Ã  "+date.getHours()+":"+date.getMinutes();
             }  
             else if(isBeforeYesterday){
-                txt= "Avant-hier à "+date.getHours()+":"+date.getMinutes();
+                txt= "Avant-hier Ã  "+date.getHours()+":"+date.getMinutes();
             }
+                       
             
             
-            
-            
-            // A clever date is possible, we show it
-            if(txt!=""){                   
-               element.innerHTML = txt;                
-            }
             // If we can't show a clever date, put default date
-            else if($(this).data('date-cleverdate-initial')){
-                element.innerHTML = element.getAttribute('date-cleverdate-initial');
+            if(txt=="" && element.getAttribute('date-cleverdate-initial')){                   
+                txt = element.getAttribute('date-cleverdate-initial');          
             }
+                       
+            if(element.innerHTML != txt)
+                element.innerHTML = txt;  
 
             
         });      
