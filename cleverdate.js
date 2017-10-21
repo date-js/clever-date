@@ -70,6 +70,8 @@ var CleverDate = function(opts){
         ----- */
         var date_current = new Date();
         
+        
+        
         // yesterday
         var date_yesterday = new Date(); date_yesterday.setDate(date_current.getDate()-1); 
         // Before yesterday
@@ -80,6 +82,8 @@ var CleverDate = function(opts){
 
             // Get date with utc format
             var date = new Date(  element.getAttribute('data-cleverdate')  );
+            var date_hour = (date.getHours()<10?'0':'') + date.getHours();
+            var date_min = (date.getMinutes()<10?'0':'') + date.getMinutes();
 
             // If bad date given, stop the analyse
             if(!date){                
@@ -117,15 +121,15 @@ var CleverDate = function(opts){
                 else if(lang == 'en') txt = ''+diff.hour+' hour'+plural_s(diff.hour)+' ago' ;
             }
             else if(isToday){
-                if(lang == 'fr') txt= "Aujourd'hui à "+date.getHours()+":"+date.getMinutes();
-                else if(lang == 'en') txt= "Today at "+date.getHours()+":"+date.getMinutes();                
+                if(lang == 'fr') txt= "Aujourd'hui à "+date_hour+":"+date_min;
+                else if(lang == 'en') txt= "Today at "+date_hour+":"+date_min;                
             }
             else if(isYesterday){
-                if(lang == 'fr') txt= "Hier à "+date.getHours()+":"+date.getMinutes();
-                else if(lang == 'en') txt= "Yesterday at "+date.getHours()+":"+date.getMinutes();                
+                if(lang == 'fr') txt= "Hier à "+date_hour+":"+date_min;
+                else if(lang == 'en') txt= "Yesterday at "+date_hour+":"+date_min;                
             }  
             else if(isBeforeYesterday && lang == 'fr'){
-                txt= "Avant-hier à "+date.getHours()+":"+date.getMinutes();
+                txt= "Avant-hier à "+date_hour+":"+date_min;
             }
                        
             
