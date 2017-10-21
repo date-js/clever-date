@@ -114,7 +114,7 @@ var CleverDate = function(opts){
             }
             else if(diff.day == 0 && diff.hour <= 3){                
                 if(lang == 'fr') txt = 'Il y a '+diff.hour+' heure'+plural_s(diff.hour)+'' ;
-                else if(lang == 'en') txt = ''+diff.hour+' hour'+plural_s(diff.hour)+'' ;
+                else if(lang == 'en') txt = ''+diff.hour+' hour'+plural_s(diff.hour)+' ago' ;
             }
             else if(isToday){
                 if(lang == 'fr') txt= "Aujourd'hui à "+date.getHours()+":"+date.getMinutes();
