@@ -10,18 +10,23 @@ module.exports = {
     ],
     rules: {
       'import/extensions': ['error', {
-        'ts': 'never'
+        'ts': 'never',
+        'json': 'always'
       }],
       'class-methods-use-this': 'off',
-      /*'@typescript-eslint/no-var-requires': "off",
-
-      'max-len': ['error', {
-        "code": 130
-      }],
-      'global-require': 'off',
-
-      'import/no-named-default': 'off'*/
+      'no-restricted-syntax': 'off',
+      'no-param-reassign': 'off',
+      'no-cond-assign': 'off',
+      'no-useless-escape': 'off'
     },
+    "overrides": [
+        {
+            "files": ['defaultConfiguration.ts'],
+            "rules": {
+                '@typescript-eslint/camelcase': 'off',
+            }
+        },
+    ],
     env: {
       browser: true,
     },

@@ -1,12 +1,12 @@
-import Configuration from './Model/Configuration';
-import Item from './Model/Item';
-import DateDiffCalculator from './DateDiff/DateDiffCalculator';
+import Configuration from './Configuration/Configuration';
+import Item from './Item/Item';
+import DateDiffCalculator from './DateInterval/DateIntervalCalculator';
 import RuleInterpreter from './Rule/RuleInterpreter';
 import Rule from './Rule/Rule';
 import defaultConfiguration from './defaultConfiguration';
+import ConfigurationValidator from './Configuration/ConfigurationValidator';
 
 export default class App {
-  private static readonly ATTRIBUTE = 'data-clever-date';
 
   private items: Item[] = [];
 
@@ -14,34 +14,44 @@ export default class App {
 
   private timer: number | null;
 
-  public start(userConfig: Configuration): void {
+  public start(userConfig: Configuration = {}): void {
     const config = this.mergeConfiguration(userConfig);
 
-    if (!this.timer) {
-      this.timer = this.startTimer(config.refresh);
+    const error = ConfigurationValidator.validate(config);
+    if (error instanceof Error) {
+      throw error;
     }
 
-    const currentLang = document.documentElement.lang;
-    this.rules = config.rules.hasOwnProperty(currentLang) ? config.rules[currentLang] : config.rules.en;
+    const exec = (): void => {
+      this.extractItems(config.selector);
+      this.analyse();
+    };
 
-    this.extractItems();
-    this.analyse();
+    if (!this.timer) {
+      this.timer = this.startTimer(config.refresh, exec);
+    }
+
+    this.rules = config.rules;
+
+    exec();
   }
 
-  private extractItems(): void {
-    const matches = document.querySelectorAll(`[${App.ATTRIBUTE}]`);
+  private extractItems(selector: string): void {
+    const matches = document.querySelectorAll(`[${selector}]`);
 
     matches.forEach(element => {
       const newItem = new Item();
       newItem.reference = element;
       newItem.initialText = element.innerHTML;
-      const timestamp = Date.parse(element.getAttribute(App.ATTRIBUTE));
-      if (!isNaN(timestamp)) {
-        newItem.date = new Date(timestamp);
+
+      const dateValue = element.getAttribute(selector);
+      if (!Number.isNaN(Number(dateValue))) {
+        const timestamp = parseInt(dateValue, 10);
+        newItem.date = new Date(timestamp * 1000);
         this.items.push(newItem);
       }
 
-      element.removeAttribute(App.ATTRIBUTE);
+      element.removeAttribute(selector);
     });
   }
 
@@ -58,10 +68,10 @@ export default class App {
   }
 
   private manageItem(item: Item): void {
-    const dateDiff = DateDiffCalculator.getDateDiff(item.date);
+    const dateDiff = DateDiffCalculator.getDateInterval(item.date);
     const ruleResult = RuleInterpreter.render(this.rules, dateDiff);
 
-    const setHtml = (newContent: string) => {
+    const setHtml = (newContent: string): void => {
       if (item.reference.innerHTML !== newContent) {
         item.reference.innerHTML = newContent;
       }
@@ -75,13 +85,17 @@ export default class App {
     }
   }
 
-  private startTimer(interval: number): number {
+  private startTimer(interval: number, callback: () => void): number {
     return window.setInterval(() => {
-      this.analyse();
+      callback();
     }, interval * 1000);
   }
 
-  private mergeConfiguration(config: Configuration): Configuration {
-    return { ...defaultConfiguration, ...config};
+  private mergeConfiguration(userConfig: Configuration): Configuration {
+    return {
+      refresh: userConfig.refresh ?? defaultConfiguration.refresh,
+      selector: userConfig.selector ?? defaultConfiguration.selector,
+      rules: userConfig.rules ? userConfig.rules.concat(defaultConfiguration.rules) : defaultConfiguration.rules
+    };
   }
 }

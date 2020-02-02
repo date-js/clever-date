@@ -1,4 +1,4 @@
-export default class DateDiff {
+export default class DateInterval {
   public date: Date;
 
   public day: number;

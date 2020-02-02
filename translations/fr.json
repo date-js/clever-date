@@ -1,0 +1,4 @@
+{
+  "days": ["dimanche", "lundi", "mardi", "mercredi", "eudi", "vendredi", "samedi"],
+  "months": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"]
+}

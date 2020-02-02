@@ -1,17 +1,10 @@
-import DateDiff from '../DateDiff/DateDiff';
+import DateInterval from '../DateInterval/DateInterval';
 
 export default class Rule {
-  public d_day?: string;
 
-  public d_hour?: string;
+  public condition: (itemDateInterval: DateInterval) => boolean;
 
-  public d_min?: string;
-
-  public d_sec?: string;
-
-  public checker?: (currentDate: Date, itemDate: DateDiff) => boolean;
-
-  public text: string;
+  public text: { [key: string]: string } = {}
 
   public refresh?: number;
 }
