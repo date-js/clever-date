@@ -1,19 +1,19 @@
 import DateInterval from './DateInterval/DateInterval';
 
 const justNow = (itemDate: DateInterval): boolean => {
-  return itemDate.day === 0 && itemDate.hour === 0 && itemDate.minute === 0 && itemDate.second < 30;
+  return itemDate.day === 0 && itemDate.hour === 0 && itemDate.minute === 0 && itemDate.second >= 0 && itemDate.second < 30;
 };
 
 const someSeconds = (itemDate: DateInterval): boolean => {
-  return itemDate.day === 0 && itemDate.hour === 0 && itemDate.minute === 0 && itemDate.second < 60;
+  return itemDate.day === 0 && itemDate.hour === 0 && itemDate.minute === 0 && itemDate.second >= 0 && itemDate.second < 60;
 };
 
 const someMinutes = (itemDate: DateInterval): boolean => {
-  return itemDate.day === 0 && itemDate.hour === 0 && itemDate.minute < 60;
+  return itemDate.day === 0 && itemDate.hour === 0 && itemDate.minute >= 0 && itemDate.minute < 60;
 };
 
 const someHours = (itemDate: DateInterval): boolean => {
-  return itemDate.day === 0 && itemDate.hour > 0 && itemDate.hour < 12;
+  return itemDate.day === 0 && itemDate.hour > 0 && itemDate.hour >= 0 && itemDate.hour < 12;
 };
 
 const today = (itemDate: DateInterval): boolean => {
