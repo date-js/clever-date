@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Clever Date</title>
+</head>
+<body>
+    <div data-clever-date="1580891648">20 aout 2019</div>
+    <div data-clever-date="1580650000">20 aout 2019</div>
+    <div data-clever-date="1577878899">20 aout 2019</div>
+    <div data-clever-date="1514806899">20 aout 2019</div>
+    <div data-clever-date="1578051699">20 aout 2019</div>
+
+    <script src="../dist/clever-date.js"></script>
+    <script>
+        var config = {
+            rules: [
+                {
+                    condition: function(dateIntervalItem) { return dateIntervalItem.day >= 365*10; }, text: {
+                        fr: "Il y a %dd jour{%dd||s} (année %Y)",
+                        en: "%dd day{%dd||s} ago (year %Y)"
+                    }
+                },
+            ]
+        }
+        CleverDate.start(config);
+    </script>
+</body>
+</html>

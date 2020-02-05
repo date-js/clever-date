@@ -1,0 +1,64 @@
+{
+  "name": "clever-date",
+  "version": "1.0.0",
+  "description": "A Javascript module to show an intelligent date refreshing at regular intervals.",
+  "main": "dist/clever-date.js",
+  "scripts": {
+    "eslint": "eslint ./src --ext .ts,.js,.d.ts",
+    "eslint-fix": "eslint ./src --ext .ts,.js,.d.ts --fix",
+    "watch": "webpack --watch",
+    "build": "webpack",
+    "prettier": "prettier \"src/**/*.ts\" --write",
+    "start:dev": "webpack-dev-server --mode development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adpeyre/clever-date.git"
+  },
+  "keywords": [
+    "date",
+    "intelligent",
+    "clever",
+    "refresh",
+    "realtime"
+  ],
+  "files": [
+    "dist"
+  ],
+  "typings": "dist/src/index.d.ts",
+  "author": "Adrien Peyre",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adpeyre/clever-date/issues"
+  },
+  "homepage": "https://github.com/adpeyre/clever-date#readme",
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-typescript": "^7.7.7",
+    "@types/node": "^12.12.24",
+    "@typescript-eslint/eslint-plugin": "^2.17.0",
+    "@typescript-eslint/parser": "^2.17.0",
+    "babel-loader": "^8.0.6",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-import-resolver-webpack": "^0.12.1",
+    "eslint-plugin-import": "^2.20.0",
+    "prettier": "^1.19.1",
+    "terser-webpack-plugin": "^2.3.1",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
+  },
+  "dependencies": {},
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-typescript"
+    ]
+  }
+}
