@@ -3,6 +3,13 @@
 A javascript module to show an intelligent date refreshing at regular intervals.
 Light and zero dependency.
 
+## Languages supported
+Languages defined bellow are fully supported but you can add your own rules with other languages.
+- English
+- Français
+
+You can also contribute and suggest translations with a pull request.
+
 ## Example 
 
 Add an attribute to your date with the corresponding timestamp.
@@ -23,13 +30,13 @@ Let's see the result:
 ```
 
 ### Some possible results:
-- Just now
-- 2 minutes ago
-- 2 hours ago
-- Today at 11:46
-- Yesterday at 11:46
+- Just now / A l'instant
+- 2 minutes ago / Il y a 2 minutes
+- 2 hours ago / Il y a 2 heures
+- Today at 11:46 / Aujourd'hui à 11h46
+- Yesterday at 11:46 / Hier à 11h46
 
-## Install it
+## Install and use it
 
 ### ES6
 
@@ -39,27 +46,37 @@ npm install clever-date
 
 ``` javascript
 import CleverDate from 'clever-date';
+
+CleverDate.start();
 ```
 
 ### Otherwise
 
 ``` html
-<script src="..."></script>
+<script src="https://cdn.jsdelivr.net/npm/clever-date@1.0/dist/clever-date.js"></script>
+```
+
+``` javascript
+CleverDate.start();
 ```
 
 ## Customize it
 
-You have the full possibility to customize your dates by passing your configuration.
+You have the full possibility to customize your rules by passing your configuration.
 
 ``` javascript
 var configuration = {
-    refresh: 10, // The refreshing time
-    rules: {
-        en: [
-            {d_day=0, d_hour=0, d_minute="<60", text: "There are [%dm] minute(s) and [%ds] second(s)."}
-        ]
-    }
+    refresh: 5, // The minimal refreshing time
+    selector: 'data-clever-date', // Elements with this attribute will be parsed
+    rules: [
+        {
+             condition: function(dateIntervalItem) { return dateIntervalItem.day >= 365*10; }, text: {
+                 fr: "Il y a %dd jour{%dd||s} (année %Y)",
+                 en: "%dd day{%dd||s} ago (year %Y)"
+             }
+        }
+    ]
 }
 
+CleverDate.start(configuration);
 ```
-

@@ -38,6 +38,7 @@ const config = {
   devServer: {
     writeToDisk: true,
     disableHostCheck: true,
+    host: '0.0.0.0',
     open: true,
     openPage: 'example/',
     onListening: (server) => {

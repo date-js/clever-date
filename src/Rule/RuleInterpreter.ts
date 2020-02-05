@@ -20,7 +20,7 @@ class RuleInterpreter {
 
   private parseRule(text: string, diff: DateInterval): string {
     let parsedText = text;
-    const regexp = /\[%([a-z]+)\|([^|\[\]]*)\|([^|\[\]]*)\]/g;
+    const regexp = /{%([a-z]+)\|([^|\[\]]*)\|([^|\[\]]*)}/gi;
     let condData;
     while ((condData = regexp.exec(text)) !== null) {
       const condValue = this.getVariableValue(condData[1], diff);
@@ -30,7 +30,7 @@ class RuleInterpreter {
     }
 
     let varData;
-    const varRegexp = /\[%([a-z]+)\]/gi;
+    const varRegexp = /%([a-z]+)/gi;
     while ((varData = varRegexp.exec(text)) !== null) {
       const variableValue = this.getVariableValue(varData[1], diff);
       if (variableValue !== null) {
@@ -38,7 +38,7 @@ class RuleInterpreter {
       }
     }
 
-    return parsedText;
+    return parsedText.replace('\\', '');
   }
 
   private calculateNextUpdate(rule: Rule): Date | null{

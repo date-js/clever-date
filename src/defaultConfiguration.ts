@@ -22,8 +22,8 @@ const today = (itemDate: DateInterval): boolean => {
 
 const yesterday = (itemDate: DateInterval): boolean => {
   const currentDate = new Date();
-  const currentDate_1 = currentDate.setDate(currentDate.getDate() - 1);
-  return new Date(currentDate_1).toDateString() === itemDate.date.toDateString();
+  const currentDateYesterday = currentDate.setDate(currentDate.getDate() - 1);
+  return new Date(currentDateYesterday).toDateString() === itemDate.date.toDateString();
 };
 
 const someDays = (itemDate: DateInterval): boolean => {
@@ -50,50 +50,50 @@ export default {
     },
     {
       condition: someSeconds, text: {
-        en: '[%ds] second[%ds||s] ago',
-        fr: 'il y a [%ds] seconde[%ds||s]'
+        en: '%ds second{%ds||s} ago',
+        fr: 'il y a %ds seconde{%ds||s}'
       }
     },
     {
       condition: someMinutes, text: {
-        en: '[%dm] minute[%dm||s] ago',
-        fr: 'il y a [%dm] minute[%dm||s]'
+        en: '%dm minute{%dm||s} ago',
+        fr: 'il y a %dm minute{%dm||s}'
       }
     },
     {
       condition: someHours, refresh: 300, text: {
-        en: '[%dh] hour[%dh||s] ago',
-        fr: 'il y a [%dh] heure[%dh||s]'
+        en: '%dh hour[%dh||s] ago',
+        fr: 'il y a %dh heure{%dh||s}'
       }
     },
     {
       condition: today, refresh: 60, text: {
-        en: 'today at [%H]h[%i]',
-        fr: 'aujourd\'hui à [%H]h[%i]'
+        en: 'today at %H:%i',
+        fr: 'aujourd\'hui à %H\\h%i'
       }
     },
     {
       condition: yesterday, refresh: 60, text: {
-        en: 'yesterday at [%H]h[%i]',
-        fr: 'hier à [%H]h[%i]'
+        en: 'yesterday at %H:%i',
+        fr: 'hier à %H\\h%i'
       }
     },
     {
       condition: someDays, refresh: 3600, text: {
-        en: '[%l] at [%H]h[%i]',
-        fr: '[%l] à [%H]h[%i]'
+        en: '%l at %H:%i',
+        fr: '%l à %H\\h%i'
       }
     },
     {
       condition: sameYear, refresh: 100000, text: {
-        en: '[%F] [%d]',
-        fr: 'le [%d][%d|er|] [%F]'
+        en: '%F %d',
+        fr: 'le %d{%d|er|} %F'
       }
     },
     {
       condition: otherwise, refresh: 100000, text: {
-        en: '[%F] [%d], [%Y]',
-        fr: 'le [%d][%d|er|] [%F] [%Y]'
+        en: '%F %d, %Y',
+        fr: 'le %d{%d|er|} %F %Y'
       }
     },
   ]

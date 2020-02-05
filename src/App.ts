@@ -52,6 +52,9 @@ export default class App {
       }
 
       element.removeAttribute(selector);
+      if (!element.hasAttribute('title')) {
+        element.setAttribute('title', newItem.initialText);
+      }
     });
   }
 

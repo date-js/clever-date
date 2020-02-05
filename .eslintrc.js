@@ -19,14 +19,6 @@ module.exports = {
       'no-cond-assign': 'off',
       'no-useless-escape': 'off'
     },
-    "overrides": [
-        {
-            "files": ['defaultConfiguration.ts'],
-            "rules": {
-                '@typescript-eslint/camelcase': 'off',
-            }
-        },
-    ],
     env: {
       browser: true,
     },

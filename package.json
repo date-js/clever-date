@@ -2,7 +2,7 @@
   "name": "clever-date",
   "version": "1.0.0",
   "description": "A Javascript module to show an intelligent date refreshing at regular intervals.",
-  "main": "dist/index.js",
+  "main": "dist/clever-date.js",
   "scripts": {
     "eslint": "eslint ./src --ext .ts,.js,.d.ts",
     "eslint-fix": "eslint ./src --ext .ts,.js,.d.ts --fix",
