@@ -1,9 +1,10 @@
 {
   "name": "clever-date",
-  "version": "1.0.0",
+  "version": "0.0.0-version",
   "description": "A Javascript module to show an intelligent date refreshing at regular intervals.",
   "main": "dist/clever-date.js",
   "scripts": {
+    "prepare": "sed -i \"s/0.0.0-version/${GITHUB_REF:11}/g\" ./package.json && webpack",
     "eslint": "eslint ./src --ext .ts,.js,.d.ts",
     "eslint-fix": "eslint ./src --ext .ts,.js,.d.ts --fix",
     "watch": "webpack --watch",
