@@ -62,7 +62,7 @@ export default {
     },
     {
       condition: someHours, refresh: 300, text: {
-        en: '%dh hour[%dh||s] ago',
+        en: '%dh hour{%dh||s} ago',
         fr: 'il y a %dh heure{%dh||s}'
       }
     },
