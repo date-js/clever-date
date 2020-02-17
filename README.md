@@ -25,8 +25,8 @@ CleverDate.start();
 
 Let's see the result:
 ``` html
-<div>2 minutes ago</div>
-<div>Yesterday at 12:12</div>
+<div title="26/01/2020 12h12">2 minutes ago</div>
+<div title="26/01/2020 12h12">Yesterday at 12:12</div>
 ```
 
 ### Some possible results:
@@ -53,7 +53,7 @@ CleverDate.start();
 ### Otherwise
 
 ``` html
-<script src="https://cdn.jsdelivr.net/npm/clever-date@1.0/dist/clever-date.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clever-date@1.0"></script>
 ```
 
 ``` javascript
