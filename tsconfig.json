@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
+    "strict": true,
     "outDir": "./dist/",
     "declaration": true,
+    "declarationDir": "./dist/types",
     "noImplicitAny": true,
     "moduleResolution": "node",
     "module": "commonjs",

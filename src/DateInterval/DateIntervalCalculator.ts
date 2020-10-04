@@ -1,31 +1,26 @@
 import DateInterval from './DateInterval';
 
-class DateIntervalCalculator {
+export default class DateIntervalCalculator {
   private static readonly SECONDS_IN_DAY = 86400;
 
   private static readonly SECONDS_IN_HOUR = 3600;
 
   private static readonly SECONDS_IN_MINUTE = 60;
 
-  public getDateInterval(date: Date): DateInterval {
-    const dateDiff = new DateInterval();
+  public static getDateInterval(date: Date): DateInterval {
     let diff = (Date.now() - date.getTime()) / 1000;
 
-    dateDiff.date = date;
+    const diffDays = Math.trunc(diff / DateIntervalCalculator.SECONDS_IN_DAY);
+    diff -= DateIntervalCalculator.SECONDS_IN_DAY * diffDays;
 
-    dateDiff.day = Math.trunc(diff / DateIntervalCalculator.SECONDS_IN_DAY);
-    diff -= DateIntervalCalculator.SECONDS_IN_DAY * dateDiff.day;
+    const diffHours = Math.trunc(diff / DateIntervalCalculator.SECONDS_IN_HOUR);
+    diff -= DateIntervalCalculator.SECONDS_IN_HOUR * diffHours;
 
-    dateDiff.hour = Math.trunc(diff / DateIntervalCalculator.SECONDS_IN_HOUR);
-    diff -= DateIntervalCalculator.SECONDS_IN_HOUR * dateDiff.hour;
+    const diffMinutes = Math.trunc(diff / DateIntervalCalculator.SECONDS_IN_MINUTE);
+    diff -= DateIntervalCalculator.SECONDS_IN_MINUTE * diffMinutes;
 
-    dateDiff.minute = Math.trunc(diff / DateIntervalCalculator.SECONDS_IN_MINUTE);
-    diff -= DateIntervalCalculator.SECONDS_IN_MINUTE * dateDiff.minute;
+    const diffSeconds = Math.trunc(diff);
 
-    dateDiff.second = Math.trunc(diff);
-
-    return dateDiff;
+    return new DateInterval(date, diffDays, diffHours, diffMinutes, diffSeconds);
   }
 }
-
-export default new DateIntervalCalculator();

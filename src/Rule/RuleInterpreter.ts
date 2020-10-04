@@ -1,58 +1,85 @@
+import DateFormatter from '@date-js/date-formatter';
 import DateInterval from '../DateInterval/DateInterval';
 import Rule from './Rule';
-import LangManager from "../Lang/LangManager";
+import RuleRender from './RuleRender';
 
 class RuleInterpreter {
-  public render(rules: Rule[], itemDateInterval: DateInterval): { render: string; nextUpdate: Date | null } | null {
-    const ruleFound = rules.find(rule => rule.condition(itemDateInterval));
+  public render(rules: Rule[], itemDateInterval: DateInterval, locale: string): RuleRender | null {
+    const ruleFound: Rule|undefined = rules.find(
+      rule => rule.condition(itemDateInterval) && locale in rule.text
+    );
 
     if (!ruleFound) {
       return null;
     }
 
-    const currentLang = LangManager.getLangName();
-
-    return {
-      render: this.parseRule(ruleFound.text[currentLang], itemDateInterval),
-      nextUpdate: this.calculateNextUpdate(ruleFound),
-    };
+    return new RuleRender(
+      this.parseRule(ruleFound.text[locale], itemDateInterval, locale),
+      this.calculateNextUpdate(ruleFound)
+    );
   }
 
-  private parseRule(text: string, diff: DateInterval): string {
-    let parsedText = text;
+  private parseRule(text: string, diff: DateInterval, locale: string): string {
+    let parsedText = this.parseConditions(text, text, diff, locale);
+    parsedText = this.parseValues(text, parsedText, diff, locale);
+
+    return parsedText.replace('\\', '');
+  }
+
+  private parseConditions(
+    text: string,
+    parsedText: string,
+    diff: DateInterval,
+    locale: string
+  ): string {
     const regexp = /{%([a-z]+)\|([^|\[\]]*)\|([^|\[\]]*)}/gi;
     let condData;
     while ((condData = regexp.exec(text)) !== null) {
-      const condValue = this.getVariableValue(condData[1], diff);
+      const condValue = this.getValueFromSymbol(condData[1], diff, locale);
       if (condValue !== null) {
-        parsedText = parsedText.replace(condData[0], parseInt(condValue, 10) <= 1 ? condData[2] : condData[3]);
+        parsedText = parsedText.replace(
+          condData[0],
+          parseInt(condValue, 10) <= 1 ? condData[2] : condData[3]
+        );
       }
     }
 
+    return parsedText;
+  }
+
+  private parseValues(
+    text: string,
+    parsedText: string,
+    diff: DateInterval,
+    locale: string
+  ): string {
     let varData;
     const varRegexp = /%([a-z]+)/gi;
     while ((varData = varRegexp.exec(text)) !== null) {
-      const variableValue = this.getVariableValue(varData[1], diff);
+      const variableValue = this.getValueFromSymbol(varData[1], diff, locale);
       if (variableValue !== null) {
         parsedText = parsedText.replace(varData[0], variableValue);
       }
     }
 
-    return parsedText.replace('\\', '');
+    return parsedText;
   }
 
-  private calculateNextUpdate(rule: Rule): Date | null{
-    if (!rule.refresh) {
+  private calculateNextUpdate(rule: Rule): Date | null | undefined {
+    if (rule.refresh === null) {
       return null;
     }
 
-    const currentDate = new Date();
+    if (rule.refresh === undefined) {
+      return undefined;
+    }
 
+    const currentDate = new Date();
     return new Date(currentDate.setTime(currentDate.getTime() + rule.refresh * 1000));
   }
 
-  private getVariableValue(varName: string, diff: DateInterval): string | null {
-    switch (varName) {
+  private getValueFromSymbol(symbol: string, diff: DateInterval, locale: string): string | null {
+    switch (symbol) {
       case 'dd':
         return diff.day.toString();
       case 'dh':
@@ -61,22 +88,8 @@ class RuleInterpreter {
         return diff.minute.toString();
       case 'ds':
         return diff.second.toString();
-      case 'Y':
-        return diff.date.getFullYear().toString();
-      case 'd':
-        return diff.date.getDate().toString();
-      case 'l':
-        return LangManager.getDay(diff.date.getDay());
-      case 'F':
-        return LangManager.getMonth(diff.date.getMonth());
-      case 'G':
-        return diff.date.getHours().toString();
-      case 'H':
-        return `0${diff.date.getHours()}`.slice(-2);
-      case 'i':
-        return `0${diff.date.getMinutes()}`.slice(-2);
       default:
-        return null;
+        return DateFormatter.getValueFromSymbol(symbol, diff.date, locale);
     }
   }
 }

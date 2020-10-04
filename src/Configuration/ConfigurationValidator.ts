@@ -1,7 +1,7 @@
 import Configuration from './Configuration';
 
-export default new (class ConfigurationValidator {
-  public validate(config: Configuration): Error | null {
+export default class ConfigurationValidator {
+  public static validate(config: Configuration): Error | null {
     if (typeof config.refresh !== 'number') {
       return new Error('Refresh value must be a number.');
     }
@@ -14,4 +14,4 @@ export default new (class ConfigurationValidator {
 
     return null;
   }
-})();
+}
