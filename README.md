@@ -50,7 +50,7 @@ import CleverDate from 'clever-date';
 ### Otherwise
 
 ``` html
-<script src="https://cdn.jsdelivr.net/npm/clever-date@1.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@date-js/clever-date@2.0"></script>
 ```
 
 ## Usage
