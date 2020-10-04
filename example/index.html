@@ -1,27 +1,52 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Clever Date</title>
+    <script src="../dist/clever-date.js"></script>
 </head>
 <body>
-    <div data-clever-date="1580891648">05/02/2020 10h10</div>
-    <div data-clever-date="1580650000">02/02/2020 14h26</div>
-    <div data-clever-date="1580891648">05/02/2020 10h10</div>
-    <div data-clever-date="1514806899">01/01/2018 10h30</div>
-    <div data-clever-date="1578051699">03/01/2020 11h30</div>
+    <h1>Clever Date</h1>
+    <p>Date is refreshed at regular intervals.</p>
 
-    <script src="../dist/clever-date.js"></script>
+    <ul>
+        <li><div data-clever-date="1601801423">Just now</div></li>
+        <li><div data-clever-date="1580891648">Some minutes</div></li>
+        <li><div data-clever-date="1580650000">Some hours</div></li>
+        <li><div data-clever-date="1580640000">Today</div></li>
+        <li><div data-clever-date="1580891648">Yesterday</div></li>
+        <li><div data-clever-date="1514806899">01/01/2018 10h30</div></li>
+        <li><div data-clever-date="1222857023">01/01/2008 10h30</div></li>
+    </ul>
+
+
     <script>
+        // SIMULATE REAL DATES
+        const items = document.querySelectorAll(`[data-clever-date]`);
+        const now = Date.now() / 1000;
+        items[0].setAttribute('data-clever-date', now);
+        items[1].setAttribute('data-clever-date', now-500);
+        items[2].setAttribute('data-clever-date', now-10000);
+        items[3].setAttribute('data-clever-date', now-12*3600);
+        items[4].setAttribute('data-clever-date', now-100000);
+        // --------
+
+
+        // CUSTOM CONFIG
+        // add custom rule
         var config = {
+
             rules: [
                 {
-                    condition: function(dateIntervalItem) { return dateIntervalItem.day >= 365*10; }, text: {
+                    condition: function(dateInterval) { return dateInterval.day >= 365*10; }, text: {
                         fr: "Il y a %dd jour{%dd||s} (année %Y)",
                         en: "%dd day{%dd||s} ago (year %Y)"
                     }
                 },
             ]
         }
+
+        // START CLEVER DATE
         CleverDate.start(config);
     </script>
 </body>

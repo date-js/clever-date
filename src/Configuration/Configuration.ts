@@ -1,9 +1,18 @@
 import Rule from '../Rule/Rule';
 
 export default class Configuration {
-  public refresh?: number;
+  /**
+   * Interval between new analyse (in seconds)
+   */
+  public refresh = 5;
 
-  public selector?: string;
+  /**
+   * Selector used to find date to manage
+   */
+  public selector = 'data-clever-date';
 
-  public rules?: Rule[];
+  /**
+   * Set of rules merged in default rules
+   */
+  public rules: Rule[] = [];
 }

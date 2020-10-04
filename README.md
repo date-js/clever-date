@@ -1,7 +1,6 @@
 # Clever Date
 
 A javascript module to show an intelligent date refreshing at regular intervals.
-Light and zero dependency.
 
 ## Languages supported
 Languages defined bellow are fully supported but you can add your own rules with other languages.
@@ -10,7 +9,7 @@ Languages defined bellow are fully supported but you can add your own rules with
 
 You can also contribute and suggest translations with a pull request.
 
-## Example 
+## Example
 
 Add an attribute to your date with the corresponding timestamp.
 ``` html
@@ -36,7 +35,7 @@ Let's see the result:
 - Today at 11:46 / Aujourd'hui à 11h46
 - Yesterday at 11:46 / Hier à 11h46
 
-## Install and use it
+## Install
 
 ### ES6
 
@@ -46,8 +45,6 @@ npm install clever-date
 
 ``` javascript
 import CleverDate from 'clever-date';
-
-CleverDate.start();
 ```
 
 ### Otherwise
@@ -56,8 +53,20 @@ CleverDate.start();
 <script src="https://cdn.jsdelivr.net/npm/clever-date@1.0"></script>
 ```
 
+## Usage
+Start the process :
 ``` javascript
 CleverDate.start();
+```
+
+Stop the process:
+``` javascript
+CleverDate.stop();
+```
+
+If you add element dynamically.
+``` javascript
+window.dispatch(new Event('clever-date.update'));
 ```
 
 ## Customize it
@@ -80,3 +89,22 @@ var configuration = {
 
 CleverDate.start(configuration);
 ```
+
+## How create rules ?
+
+You can see examples in [default rules file](src/defaultRules.ts).
+
+A rule is composed of some elements:
+
+##### condition
+A callback which returns true if the rule matches.\
+DateInterval is injected in the callback: see [DateInterval.ts](src/DateInterval/DateInterval.ts) for more information.
+
+##### refresh
+For improving performances, it's not necessary to analyse and parse your rule each time.
+- null: never analysed again
+- undefined: use default refreshing time
+- number: seconds between analyses
+
+##### text
+An object with the text for each language that you want to target.

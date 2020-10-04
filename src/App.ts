@@ -1,59 +1,79 @@
 import Configuration from './Configuration/Configuration';
 import Item from './Item/Item';
-import DateDiffCalculator from './DateInterval/DateIntervalCalculator';
+import DateIntervalCalculator from './DateInterval/DateIntervalCalculator';
 import RuleInterpreter from './Rule/RuleInterpreter';
 import Rule from './Rule/Rule';
-import defaultConfiguration from './defaultConfiguration';
+import defaultRules from './defaultRules';
 import ConfigurationValidator from './Configuration/ConfigurationValidator';
+import RuleRender from './Rule/RuleRender';
+import LocaleManager from './Locale/LocaleManager';
 
 export default class App {
+  private static readonly EVENT_REFRESH = 'clever-date.update';
 
   private items: Item[] = [];
 
   private rules: Rule[] = [];
 
-  private timer: number | null;
+  private timer: number | null = null;
 
-  public start(userConfig: Configuration = {}): void {
-    const config = this.mergeConfiguration(userConfig);
+  private readonly locale: string;
+
+  public constructor() {
+    this.locale = LocaleManager.getLocaleName();
+  }
+
+  public start(userConfig: Configuration|null = null): void {
+    const config = { ...new Configuration(), ...userConfig };
+    config.rules = config.rules.concat(defaultRules);
 
     const error = ConfigurationValidator.validate(config);
     if (error instanceof Error) {
       throw error;
     }
 
-    const exec = (): void => {
+    this.rules = config.rules;
+
+    const execProcess = (): void => {
       this.extractItems(config.selector);
       this.analyse();
     };
 
-    if (!this.timer) {
-      this.timer = this.startTimer(config.refresh, exec);
+    if (this.timer === null) {
+      this.timer = this.startTimer(config.refresh, execProcess);
     }
 
-    this.rules = config.rules;
+    window.addEventListener(App.EVENT_REFRESH, () => execProcess());
 
-    exec();
+    execProcess();
+  }
+
+  public stop(): void {
+    if (this.timer !== null) {
+      window.clearInterval(this.timer);
+    }
   }
 
   private extractItems(selector: string): void {
     const matches = document.querySelectorAll(`[${selector}]`);
 
     matches.forEach(element => {
-      const newItem = new Item();
-      newItem.reference = element;
-      newItem.initialText = element.innerHTML;
+      let attributeValue: string|number = element.getAttribute(selector) as string;
 
-      const dateValue = element.getAttribute(selector);
-      if (!Number.isNaN(Number(dateValue))) {
-        const timestamp = parseInt(dateValue, 10);
-        newItem.date = new Date(timestamp * 1000);
-        this.items.push(newItem);
+      if (!Number.isNaN(Number(attributeValue))) {
+        const timestamp = parseInt(attributeValue, 10);
+        attributeValue = timestamp * 1000;
+      }
+
+      const itemDate = new Date(attributeValue);
+
+      if (itemDate.getTime() > 0) {
+        this.items.push(new Item(element, element.innerHTML, itemDate));
       }
 
       element.removeAttribute(selector);
       if (!element.hasAttribute('title')) {
-        element.setAttribute('title', newItem.initialText);
+        element.setAttribute('title', element.textContent as string);
       }
     });
   }
@@ -61,18 +81,16 @@ export default class App {
   private analyse(): void {
     const currentDate = new Date();
 
-    const itemsToAnalyse = this.items.filter(item => {
-      return !item.nextUpdate || item.nextUpdate < currentDate;
-    });
+    const itemsToAnalyse = this.items.filter(
+      item => item.nextUpdate === undefined || (item.nextUpdate !== null && item.nextUpdate < currentDate)
+    );
 
-    itemsToAnalyse.forEach(item => {
-      this.manageItem(item);
-    });
+    itemsToAnalyse.forEach(item => this.manageItem(item));
   }
 
   private manageItem(item: Item): void {
-    const dateDiff = DateDiffCalculator.getDateInterval(item.date);
-    const ruleResult = RuleInterpreter.render(this.rules, dateDiff);
+    const dateInterval = DateIntervalCalculator.getDateInterval(item.date);
+    const ruleResult = RuleInterpreter.render(this.rules, dateInterval, this.locale);
 
     const setHtml = (newContent: string): void => {
       if (item.reference.innerHTML !== newContent) {
@@ -80,11 +98,15 @@ export default class App {
       }
     };
 
-    if (ruleResult) {
+    if (ruleResult instanceof RuleRender) {
+      if (ruleResult.nextUpdate === null) {
+        this.removeItem(item);
+      }
+
       item.nextUpdate = ruleResult.nextUpdate;
       setHtml(ruleResult.render);
     } else {
-      setHtml(item.initialText);
+      setHtml(item.initialContent);
     }
   }
 
@@ -94,11 +116,10 @@ export default class App {
     }, interval * 1000);
   }
 
-  private mergeConfiguration(userConfig: Configuration): Configuration {
-    return {
-      refresh: userConfig.refresh ?? defaultConfiguration.refresh,
-      selector: userConfig.selector ?? defaultConfiguration.selector,
-      rules: userConfig.rules ? userConfig.rules.concat(defaultConfiguration.rules) : defaultConfiguration.rules
-    };
+  private removeItem(itemToRemove: Item): void {
+    const index = this.items.findIndex(item => item === itemToRemove);
+    if (index >= 0) {
+      this.items.splice(index, 1);
+    }
   }
 }
