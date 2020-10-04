@@ -2,7 +2,7 @@
 
 A javascript module to show an intelligent date refreshing at regular intervals.
 
-## Languages supported
+## Supported languages
 Languages defined bellow are fully supported but you can add your own rules with other languages.
 - English
 - Français
@@ -44,7 +44,7 @@ npm install clever-date
 ```
 
 ``` javascript
-import CleverDate from 'clever-date';
+import CleverDate from '@date-js/clever-date';
 ```
 
 ### Otherwise
