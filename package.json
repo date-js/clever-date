@@ -4,7 +4,7 @@
   "description": "A Javascript module to show an intelligent date refreshing at regular intervals.",
   "main": "dist/clever-date.js",
   "scripts": {
-    "prepare": "webpack",
+    "prepare": " rm -f node_modules/html-entities/lib/*.d.ts && webpack --mode production",
     "eslint": "eslint ./src --ext .ts,.js,.d.ts",
     "eslint-fix": "eslint ./src --ext .ts,.js,.d.ts --fix",
     "watch": "webpack --watch",

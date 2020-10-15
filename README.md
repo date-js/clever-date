@@ -2,6 +2,9 @@
 
 A javascript module to show an intelligent date refreshing at regular intervals.
 
+## Demo
+A demo is available [here](https://date-js.github.io/clever-date/).
+
 ## Supported languages
 Languages defined bellow are fully supported but you can add your own rules with other languages.
 - English
