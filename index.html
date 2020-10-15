@@ -10,11 +10,12 @@
 <body>
     <div class="container">
         <h1>Clever Date</h1>
-        <p>Date is refreshed at regular intervals. Wait some seconds to see changes.</p>
+        <p>Date is refreshed at regular intervals.</p>
 
         <div class="card">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item" data-clever-date="1601801423">Just now</li>
+                <li class="list-group-item" data-clever-date="1601801400">Some seconds</li>
                 <li class="list-group-item" data-clever-date="1580891648">Some minutes</li>
                 <li class="list-group-item" data-clever-date="1580650000">Some hours</li>
                 <li class="list-group-item" data-clever-date="1580640000">Today</li>
@@ -32,10 +33,11 @@
         const items = document.querySelectorAll(`[data-clever-date]`);
         const now = Date.now() / 1000;
         items[0].setAttribute('data-clever-date', now);
-        items[1].setAttribute('data-clever-date', now-500);
-        items[2].setAttribute('data-clever-date', now-10000);
-        items[3].setAttribute('data-clever-date', now-12*3600);
-        items[4].setAttribute('data-clever-date', now-100000);
+        items[1].setAttribute('data-clever-date', now-30);
+        items[2].setAttribute('data-clever-date', now-500);
+        items[3].setAttribute('data-clever-date', now-10000);
+        items[4].setAttribute('data-clever-date', now-12*3600);
+        items[5].setAttribute('data-clever-date', now-100000);
         // --------
 
 
