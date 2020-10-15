@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Clever Date</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5clever-date/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="clever-date/clever-date.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Clever Date</h1>
+        <p>Date is refreshed at regular intervals. Wait some seconds to see changes.</p>
+
+        <div class="card">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" data-clever-date="1601801423">Just now</li>
+                <li class="list-group-item" data-clever-date="1580891648">Some minutes</li>
+                <li class="list-group-item" data-clever-date="1580650000">Some hours</li>
+                <li class="list-group-item" data-clever-date="1580640000">Today</li>
+                <li class="list-group-item" data-clever-date="1580891648">Yesterday</li>
+                <li class="list-group-item" data-clever-date="1514806899">01/01/2018 10h30</li>
+                <li class="list-group-item" data-clever-date="1222857023">01/01/2008 10h30</li>
+            </ul>
+        </div>
+
+        <span onClick="location.reload();" class="mt-5 btn btn-primary">Refresh</span>
+    </div>
+
+    <script>
+        // SIMULATE REAL DATES
+        const items = document.querySelectorAll(`[data-clever-date]`);
+        const now = Date.now() / 1000;
+        items[0].setAttribute('data-clever-date', now);
+        items[1].setAttribute('data-clever-date', now-500);
+        items[2].setAttribute('data-clever-date', now-10000);
+        items[3].setAttribute('data-clever-date', now-12*3600);
+        items[4].setAttribute('data-clever-date', now-100000);
+        // --------
+
+
+        // CUSTOM CONFIG
+        // add custom rule
+        var config = {
+
+            rules: [
+                {
+                    condition: function(dateInterval) { return dateInterval.day >= 365*10; }, text: {
+                        fr: "Il y a %dd jour{%dd||s} (année %Y)",
+                        en: "%dd day{%dd||s} ago (year %Y)"
+                    }
+                },
+            ]
+        }
+
+        // START CLEVER DATE
+        CleverDate.start(config);
+    </script>
+</body>
+</html>
