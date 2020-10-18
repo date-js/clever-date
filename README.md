@@ -1,6 +1,10 @@
 # Clever Date
 
-A javascript module to show an intelligent date refreshing at regular intervals.
+![npm](https://img.shields.io/npm/v/@date-js/clever-date?style=flat-square)
+![npm](https://img.shields.io/npm/dt/@date-js/clever-date?style=flat-square)
+![starts](https://img.shields.io/github/stars/date-js/clever-date?style=flat-square)
+
+A javascript library (<10kB) to show an intelligent date refreshing at regular intervals.
 
 ## Demo
 A demo is available [here](https://date-js.github.io/clever-date/).
@@ -17,7 +21,7 @@ You can also contribute and suggest translations with a pull request.
 Add an attribute to your date with the corresponding timestamp.
 ``` html
 <div data-clever-date="1579950627">26/01/2020 12h12</div>
-<div data-clever-date="1580037027">26/01/2020 12h12</div>
+<div data-clever-date="1580037027">25/01/2020 12h12</div>
 ```
 
 Start the script:
@@ -28,7 +32,7 @@ CleverDate.start();
 Let's see the result:
 ``` html
 <div title="26/01/2020 12h12">2 minutes ago</div>
-<div title="26/01/2020 12h12">Yesterday at 12:12</div>
+<div title="25/01/2020 12h12">Yesterday at 12:12</div>
 ```
 
 ### Some possible results:
