@@ -47,7 +47,7 @@ Let's see the result:
 ### ES6
 
 ``` bash
-npm install clever-date
+npm install @date-js/clever-date
 ```
 
 ``` javascript
