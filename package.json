@@ -1,15 +1,15 @@
 {
   "name": "@date-js/clever-date",
   "version": "0.0.0-version",
-  "description": "A Javascript module to show an intelligent date refreshing at regular intervals.",
+  "description": "A Javascript module to show an intelligent date refreshed at regular intervals.",
   "main": "dist/clever-date.js",
   "scripts": {
-    "prepare": " rm -f node_modules/html-entities/lib/*.d.ts && webpack --mode production",
+    "prepublishOnly": "webpack --mode production",
     "eslint": "eslint ./src --ext .ts,.js,.d.ts",
     "eslint-fix": "eslint ./src --ext .ts,.js,.d.ts --fix",
     "watch": "webpack --watch",
     "build": "webpack",
-    "start:dev": "webpack-dev-server --mode development"
+    "start:dev": "webpack serve --mode development"
   },
   "repository": {
     "type": "git",
@@ -17,10 +17,20 @@
   },
   "keywords": [
     "date",
+    "hour",
+    "day",
+    "month",
+    "year",
     "intelligent",
     "clever",
     "refresh",
-    "realtime"
+    "realtime",
+    "human",
+    "pretty",
+    "time",
+    "update",
+    "tiny",
+    "light"
   ],
   "files": [
     "dist"
@@ -33,28 +43,29 @@
   },
   "homepage": "https://github.com/date-js/clever-date#readme",
   "devDependencies": {
-    "@babel/core": "^7.11.6",
-    "@babel/preset-env": "^7.11.5",
-    "@babel/preset-typescript": "^7.10.4",
-    "@types/node": "^12.12.62",
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-typescript": "^7.14.5",
+    "@types/node": "^12.20.15",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
-    "babel-loader": "^8.1.0",
+    "babel-loader": "^8.2.2",
     "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-config-prettier": "^6.12.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^6.15.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-import-resolver-webpack": "^0.12.2",
-    "eslint-plugin-import": "^2.22.1",
-    "terser-webpack-plugin": "^2.3.8",
-    "ts-loader": "^6.2.2",
-    "typescript": "^3.9.7",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-promise": "^4.3.1",
+    "terser-webpack-plugin": "^5.1.4",
+    "ts-loader": "^9.2.3",
+    "typescript": "^4.3.4",
+    "webpack": "^5.41.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^4.0.0-beta.3"
   },
   "dependencies": {
-    "@date-js/date-formatter": "^1.0.0"
+    "@date-js/date-formatter": "^1.0.1"
   },
   "babel": {
     "presets": [

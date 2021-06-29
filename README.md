@@ -4,7 +4,7 @@
 ![npm](https://img.shields.io/npm/dt/@date-js/clever-date?style=flat-square)
 ![starts](https://img.shields.io/github/stars/date-js/clever-date?style=flat-square)
 
-A javascript library (<10kB) to show an intelligent date refreshing at regular intervals.
+A javascript library (<10kB) to show an intelligent date refreshed at regular intervals.
 
 ## Demo
 A demo is available [here](https://date-js.github.io/clever-date/).

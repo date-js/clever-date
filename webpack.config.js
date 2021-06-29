@@ -9,11 +9,13 @@ const config = {
   output: {
     filename: 'clever-date.js',
     path: path.resolve(__dirname, 'dist'),
-    libraryTarget: 'umd',
-    library: 'CleverDate'
+    library: {
+      name: 'CleverDate',
+      type: 'umd',
+    },
   },
   resolve: {
-    extensions: ['.ts', '.d.ts', '.js', '.json'],
+    extensions: ['.ts', '.js', '.json'],
   },
   module: {
     rules: [
@@ -36,15 +38,10 @@ const config = {
     minimizer: [new TerserPlugin()],
   },
   devServer: {
-    writeToDisk: true,
-    disableHostCheck: true,
     host: '0.0.0.0',
-    open: true,
-    openPage: 'example/',
-    onListening: (server) => {
-      const port = server.listeningApp.address().port;
-      console.info("\n\nGo to => http://localhost:"+port+"/example/\n");
-    }
+    static: [
+      path.join(__dirname, 'example'),
+    ],
   },
 };
 
