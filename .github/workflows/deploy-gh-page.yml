@@ -12,7 +12,7 @@ jobs:
       - run: mkdir ./example/clever-date
       - run: npm install
       - run: npm run build
-      - run: cp -r ./dist/* ./example/clever-date/
+      - run: cp -r ./dist/* ./example/
       - name: deploy
         uses: peaceiris/actions-gh-pages@v2
         env:
